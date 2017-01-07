@@ -1,0 +1,18 @@
+{
+    "apps": [{
+        "name": "pi-server",
+        "script": "./bin/www",
+        "watch": false,
+        "log_date_format": "YYYY-MM-DD HH:mm Z",
+        "out_file": "pi-server-out.log",
+        "error_file": "pi-server-err.log",
+        "env": {
+            "DEBUG": "app:*",
+            "NODE_ENV": "development"
+        },
+        "env_production": {
+            "DEBUG": "app:error",
+            "NODE_ENV": "production"
+        }
+    }]
+}
