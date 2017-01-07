@@ -32,6 +32,7 @@ router.get('/login', (req, res, next) => {
     } = req.query;
 
     if (username === 'smartbox' && password === 'ilovesmartbox') {
+
         const token = jwt.sign({
             username
         }, secret, {
@@ -42,12 +43,13 @@ router.get('/login', (req, res, next) => {
         res.json({
             token
         });
+
     } else {
+
         let e = new Error('Invalid credentials');
         e.status = 400;
         next(e);
 
-        // res.status(400).send('Invalid Credentials');
     }
 
 });
