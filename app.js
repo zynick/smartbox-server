@@ -47,9 +47,11 @@ app.use((err, req, res, next) => {
     if (!isProd) {
         result.stack = err.stack;
     }
-    res.status(result.status).json({
-        error: result
-    });
+    res
+        .status(result.status)
+        .json({
+            error: result
+        });
 });
 
 
