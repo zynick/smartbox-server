@@ -11,48 +11,6 @@ router.get('/', (req, res) => {
     });
 });
 
-router.get('/content', (req, res, next) => {
-    const token = req.query.token;
-    jwt.verify(token, secret, function(err, decoded) {
-        if (err) {
-            let e = new Error(`Invalid token: ${err.message}`);
-            e.status = 400;
-            return next(e);
-        }
-
-        res.json(decoded);
-    });
-});
-
-router.get('/login', (req, res, next) => {
-
-    const {
-        username,
-        password
-    } = req.query;
-
-    if (username === 'smartbox' && password === 'ilovesmartbox') {
-
-        const token = jwt.sign({
-            username
-        }, secret, {
-            expiresIn: 10
-                // expiresIn: '1d'
-        });
-
-        res.json({
-            token
-        });
-
-    } else {
-
-        let e = new Error('Invalid credentials');
-        e.status = 400;
-        next(e);
-
-    }
-
-});
-
+router.use('/v1', require('./v1'));
 
 module.exports = router;
