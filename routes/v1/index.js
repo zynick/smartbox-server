@@ -16,10 +16,7 @@ router.use('/', (req, res, next) => {
             e.status = 400;
             return next(e);
         }
-
-        console.log(JSON.stringify(decoded, null, 2));
         req.jwt = decoded;
-
         next();
     });
 });

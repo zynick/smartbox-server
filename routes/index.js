@@ -9,7 +9,7 @@ const {
 
 
 router.get('/', (req, res) => {
-    res.status(200).json(`SMARTBOX API Server v${version}`);
+    res.json(`SMARTBOX API Server v${version}`);
 });
 
 router.use('/v1', require('./v1'));
