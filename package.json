@@ -1,17 +1,16 @@
 {
-  "name": "pi-server",
-  "version": "0.0.1",
-  "private": true,
-  "scripts": {
-    "dev": "NODE_ENV=development DEBUG=app:* node ./bin/www",
-    "start": "NODE_ENV=production DEBUG=app:error node ./bin/www"
-  },
-  "dependencies": {
-    "body-parser": "~1.13.2",
-    "debug": "~2.2.0",
-    "express": "~4.13.1",
-    "express-jwt": "^5.1.0",
-    "jsonwebtoken": "^7.2.1",
-    "pug": "^2.0.0-beta6"
-  }
+    "name": "pi-server",
+    "version": "0.0.1",
+    "private": true,
+    "scripts": {
+        "dev": "NODE_ENV=development DEBUG=app:* node ./bin/www",
+        "start": "NODE_ENV=production DEBUG=app:error node ./bin/www"
+    },
+    "dependencies": {
+        "body-parser": "~1.13.2",
+        "debug": "~2.2.0",
+        "express": "~4.13.1",
+        "jsonwebtoken": "^7.2.1",
+        "pug": "^2.0.0-beta6"
+    }
 }
