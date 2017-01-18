@@ -2,12 +2,11 @@
 
 const bodyParser = require('body-parser');
 const express = require('express');
-const routes = require('./routes');
 const app = express();
+const routes = require('./routes');
 
-app.use(bodyParser.urlencoded({ // parse application/x-www-form-urlencoded
-    extended: false
-}));
+// app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));   // parse application/x-www-form-urlencoded
 app.use('/', routes);
 
 module.exports = app;
