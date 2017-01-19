@@ -1,7 +1,7 @@
 'use strict';
 
 const router = require('express').Router();
-const httpGet = require('../../helpers/httpGet');
+const httpGet = require('../../lib/httpGet');
 const { host, port } = require('../../config.json')['ha-gc'];
 const url = `http://${host}:${port}`;
 
