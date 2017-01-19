@@ -2,7 +2,7 @@
 
 const jwt = require('jsonwebtoken');
 const router = require('express').Router();
-const { secret, login } = require('../../config.json');
+const { jwtSecret, login } = require('../../config.json');
 
 // login
 router.get('/', (req, res, next) => {
@@ -15,7 +15,7 @@ router.get('/', (req, res, next) => {
         return next(err);
     }
 
-    const token = jwt.sign({ email }, secret, { expiresIn: '1d' });
+    const token = jwt.sign({ email }, jwtSecret, { expiresIn: '1d' });
 
     res.json({ token });
 

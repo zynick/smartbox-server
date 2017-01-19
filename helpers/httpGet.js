@@ -1,12 +1,8 @@
 'use strict';
 
-const express = require('express');
 const http = require('http');
-const router = express.Router();
-const { host, port } = require('../../../config.json')['ha-ds'];
-const url = `http://${host}:${port}`;
 
-const httpGet = (url, next) => {
+module.exports = (url, next) => {
     http
         .get(url, (res) => {
             let data = '';
@@ -32,15 +28,3 @@ const httpGet = (url, next) => {
             });
         });
 };
-
-
-router.get('/', (req, res, next) => {
-    httpGet(`${url}/v2/getStructure`, (err, httpRes) => {
-        if (err) {
-            return next(err);
-        }
-        res.status(httpRes.statusCode).json(httpRes.body);
-    });
-});
-
-module.exports = router;

@@ -1,12 +1,16 @@
 {
-    "secret": "smartbox is the future",
+    "jwtSecret": "smartbox is the future",
     "login": {
-        "//": "yeah don't care the password first",
+        "//": "yeah don't care the plain text password first",
         "email": "dev@smartboxasia.com",
         "password": "ilovesmartbox"
     },
     "ha-ds": {
         "host": "localhost",
         "port": 3000
+    },
+    "ha-gc": {
+        "host": "localhost",
+        "port": 3001
     }
 }
