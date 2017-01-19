@@ -1,24 +1,27 @@
 'use strict';
 
-const express = require('express');
 const jwt = require('jsonwebtoken');
+const router = require('express').Router();
 const secret = require('../../config.json').secret;
-const router = express.Router();
 
 router.use('/login', require('./login'));
 
 // jwt authentication middleware
 router.use('/', (req, res, next) => {
-    const token = req.query.token;
+
+    const { token } = req.query;
+
     jwt.verify(token, secret, function(err, decoded) {
         if (err) {
-            let e = new Error(`Invalid token: ${err.message}`);
-            e.status = 400;
-            return next(e);
+            const err2 = new Error(`Invalid token: ${err.message}`);
+            err2.status = 400;
+            return next(err2);
         }
+
         req.jwt = decoded;
         next();
     });
+
 });
 
 router.use('/ds', require('./ds'));

@@ -3,10 +3,7 @@
 const express = require('express');
 const http = require('http');
 const router = express.Router();
-const {
-    host,
-    port
-} = require('../../../config.json')['ha-ds'];
+const { host, port } = require('../../../config.json')['ha-ds'];
 const url = `http://${host}:${port}`;
 
 const httpGet = (url, next) => {
@@ -28,7 +25,11 @@ const httpGet = (url, next) => {
         .on('error', next)
         .on('socket', (socket) => {
             socket.setTimeout(30 * 1000); // 30 seconds;
-            socket.on('timeout', () => next(new Error(`request timeout: ${url}`)));
+            socket.on('timeout', () => {
+                const err = new Error(`request timeout: ${url}`);
+                err.status = 504;
+                next(err);
+            });
         });
 };
 

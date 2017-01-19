@@ -7,12 +7,14 @@
         "out_file": "pi-server-out.log",
         "error_file": "pi-server-err.log",
         "env": {
-            "DEBUG": "*",
-            "NODE_ENV": "development"
+            "NODE_ENV": "development",
+            "PORT": "3030",
+            "DEBUG": "sb:*"
         },
         "env_production": {
-            "DEBUG": "error",
-            "NODE_ENV": "production"
+            "NODE_ENV": "production",
+            "PORT": "3030",
+            "DEBUG": "sb:error"
         }
     }]
 }

@@ -23,7 +23,6 @@ router.use((err, req, res, next) => {
     const status = err.status || 500;
     const message = err.message || 'Internal Server Error';
     const error = { status, message };
-    // hide stacktrace in production, show otherwise
     if (!isProd) { error.stack = err.stack; }
     res
         .status(status)

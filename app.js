@@ -4,14 +4,16 @@ const bodyParser = require('body-parser');
 const debug = require('debug');
 const express = require('express');
 const http = require('http');
+const morgan = require('morgan');
 
-const log = debug('app');
-const logError = debug('error');
+const log = debug('sb:app');
+const logError = debug('sb:error');
 const routes = require('./routes');
 
 
 /* Initialize Express */
 const app = express();
+app.use(morgan('common'));
 // app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use('/', routes);
@@ -27,7 +29,7 @@ function normalizePort(val) {
     }
     return false;
 }
-const port = normalizePort(process.env.PORT || 3030);
+const port = normalizePort(process.env.PORT || 3000);
 app.set('port', port);
 
 
