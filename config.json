@@ -1,5 +1,8 @@
 {
-    "jwtSecret": "smartbox is the future",
+    "jwt": {
+        "secret": "smartbox is the future",
+        "expiresIn": "1d"
+    },
     "login": {
         "//": "yeah don't care the plain text password first",
         "email": "dev@smartboxasia.com",

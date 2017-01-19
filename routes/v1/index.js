@@ -2,7 +2,7 @@
 
 const jwt = require('jsonwebtoken');
 const router = require('express').Router();
-const { jwtSecret } = require('../../config.json');
+const { secret } = require('../../config.json').jwt;
 
 // page here doesn't require jwt token
 router.use('/login', require('./login'));
@@ -12,7 +12,7 @@ router.use('/', (req, res, next) => {
 
     const { token } = req.query;
 
-    jwt.verify(token, jwtSecret, function(err, decoded) {
+    jwt.verify(token, secret, function(err, decoded) {
         if (err) {
             const err2 = new Error(`Invalid token: ${err.message}`);
             err2.status = 400;
