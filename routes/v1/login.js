@@ -3,15 +3,17 @@
 const jwt = require('jsonwebtoken');
 const router = require('express').Router();
 const config = require('../../config.json');
-const login = config.login;
+const {
+    email: loginEmail,
+    password: loginPassword
+} = config.login;
 const { secret, expiresIn } = config.jwt;
 
 
-router.get('/', (req, res, next) => {
+router.post('/', (req, res, next) => {
+    const { email, password } = req.body;
 
-    const { email, password } = req.query;
-
-    if (email !== login.email || password !== login.password) {
+    if (email !== loginEmail || password !== loginPassword) {
         const err = new Error('Invalid credentials');
         err.status = 400;
         return next(err);
@@ -20,7 +22,6 @@ router.get('/', (req, res, next) => {
     const token = jwt.sign({ email }, secret, { expiresIn });
 
     res.json({ token });
-
 });
 
 
