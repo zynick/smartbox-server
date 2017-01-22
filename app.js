@@ -14,7 +14,7 @@ const routes = require('./routes');
 /* Initialize Express */
 const app = express();
 app.use(morgan('common'));
-// app.use(bodyParser.json());
+app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use('/', routes);
 
