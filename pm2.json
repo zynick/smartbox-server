@@ -1,20 +1,20 @@
 {
-    "apps": [{
-        "name": "pi-server",
-        "script": "app",
-        "watch": false,
-        "log_date_format": "YYYY-MM-DD HH:mm Z",
-        "out_file": "pi-server-out.log",
-        "error_file": "pi-server-err.log",
-        "env": {
-            "NODE_ENV": "development",
-            "PORT": "3030",
-            "DEBUG": "sb:*"
-        },
-        "env_production": {
-            "NODE_ENV": "production",
-            "PORT": "3030",
-            "DEBUG": "sb:error"
-        }
-    }]
+  "apps": [{
+    "name": "pi-server",
+    "script": "app",
+    "watch": false,
+    "log_date_format": "YYYY-MM-DD HH:mm Z",
+    "out_file": "pi-server-out.log",
+    "error_file": "pi-server-err.log",
+    "env": {
+      "NODE_ENV": "development",
+      "PORT": "3030",
+      "DEBUG": "sb:*"
+    },
+    "env_production": {
+      "NODE_ENV": "production",
+      "PORT": "3030",
+      "DEBUG": "sb:error"
+    }
+  }]
 }

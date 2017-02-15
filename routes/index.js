@@ -1,32 +1,18 @@
 'use strict';
 
 const router = require('express').Router();
-const isProd = process.env.NODE_ENV === 'production';
-const { version } = require('../package.json');
+const { NODE_ENV } = require('../config.js');
+const controller = require('../controllers/index.js');
 
 
-router.get('/', (req, res) => {
-    res.json(`SMARTBOX API Server v${version}`);
-});
+if (NODE_ENV !== 'production') {
+    router.use(controller.debug);
+}
 
+router.get('/', controller.index);
 router.use('/v1', require('./v1'));
+router.use(controller.notFound);
+router.use(controller.errorHandlerJSON);
 
-
-/* 404 & Error Handlers */
-router.use((req, res, next) => {
-    const err = new Error('Not Found');
-    err.status = 404;
-    next(err);
-});
-
-router.use((err, req, res, next) => {
-    const status = err.status || 500;
-    const message = err.message || 'Internal Server Error';
-    const error = { status, message };
-    if (!isProd) { error.stack = err.stack; }
-    res
-        .status(status)
-        .json({ error });
-});
 
 module.exports = router;
