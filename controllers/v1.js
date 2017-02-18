@@ -69,14 +69,6 @@ const login = (req, res, next) => {
   res.json({ token });
 };
 
-
-// deprecate soon
-const dsGetZones = (req, res, next) => _get(`http://${DS_HOST}:${DS_PORT}/v2/zones`, res, next);
-const dsGetStructure = (req, res, next) => _get(`http://${DS_HOST}:${DS_PORT}/v2/structure`, res, next);
-const gcGetStructure = (req, res, next) => _get(`http://${GC_HOST}:${GC_PORT}/v1/structure`, res, next);
-
-
-
 const stackGetCacheIfExist = (req, res, next) => {
   if (structureCache) {
     res.json(structureCache);
@@ -92,9 +84,9 @@ const stackGetDsStructure = (req, res, next) => {
         return next(err);
       }
       if (httpRes.statusCode !== 200) {
-        const err2 = new Error(`${httpRes.statusCode}: ${JSON.stringify(httpRes.body)}`);
-        err2.status = httpRes.statusCode;
-        return next(err2);
+        err = new Error(`${httpRes.statusCode}: ${JSON.stringify(httpRes.body)}`);
+        err.status = httpRes.statusCode;
+        return next(err);
       }
       req.ds = httpRes.body;
       next();
@@ -108,9 +100,9 @@ const stackGetGcStructure = (req, res, next) => {
         return next(err);
       }
       if (httpRes.statusCode !== 200) {
-        const err2 = new Error(`${httpRes.statusCode}: ${JSON.stringify(httpRes.body)}`);
-        err2.status = httpRes.statusCode;
-        return next(err2);
+        err = new Error(`${httpRes.statusCode}: ${JSON.stringify(httpRes.body)}`);
+        err.status = httpRes.statusCode;
+        return next(err);
       }
       req.gc = httpRes.body;
       next();
@@ -120,6 +112,7 @@ const stackGetGcStructure = (req, res, next) => {
 const stackMergeStructure = (req, res, next) => {
   const { ds, gc } = req;
 
+  // TODO move this to lib
   let structure = [];
   let exists = {};
 
@@ -173,10 +166,6 @@ const stackSaveCacheAndResponse = (req, res) => {
 module.exports = {
   auth,
   login,
-
-  dsGetZones,
-  dsGetStructure,
-  gcGetStructure,
 
   structure: [
     stackGetCacheIfExist,
