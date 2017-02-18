@@ -22,13 +22,8 @@ app.use('/', routes);
 // normalize environment port into a number, string (named pipe), or false.
 const normalizePort = val => {
   const port = parseInt(val, 10);
-  if (isNaN(port)) {
-    return val;
-  }
-  if (port >= 0) {
-    return port;
-  }
-  return false;
+  return isNaN(port) ? val :
+    port >= 0 ? port : false;
 };
 const port = normalizePort(PORT);
 app.set('port', port);

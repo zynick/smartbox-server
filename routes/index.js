@@ -10,7 +10,7 @@ if (NODE_ENV !== 'production') {
 }
 
 router.get('/', controller.index);
-router.use('/v1', require('./v1'));
+router.use('/v1', require('./v1.js'));
 router.use(controller.notFound);
 router.use(controller.errorHandlerJSON);
 

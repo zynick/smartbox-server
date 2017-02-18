@@ -14,8 +14,7 @@ const {
   GC_PORT = 3001,
 
   NODE_ENV = 'development',
-  PORT = 3030,
-  DEBUG = 'sb:*'
+  PORT = 3030
 } = process.env;
 
 module.exports = {
@@ -32,6 +31,5 @@ module.exports = {
   GC_PORT,
 
   NODE_ENV,
-  PORT,
-  DEBUG
+  PORT
 };
