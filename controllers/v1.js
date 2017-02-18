@@ -133,9 +133,9 @@ const stackMergeStructure = (req, res, next) => {
   let exists = {};
 
   ds.forEach((zone, idx) => {
-    const { name } = zone;
+    const { zoneID: id, name } = zone;
     let items = [];
-    let _zone = { name, items };
+    let _zone = { id, name, items };
 
     exists[name] = idx;
 
