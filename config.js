@@ -5,8 +5,8 @@ const {
   JWT_SECRET = 'smartbox is the future',
   JWT_EXPIRE = '1d',
 
-  LOGIN_EMAIL = 'dev@smartboxasia.com',
-  LOGIN_PASSWORD = 'ilovesmartbox',
+  LOGIN_EMAIL = 'aaa',
+  LOGIN_PASSWORD = 'bbb',
 
   DS_HOST = 'localhost',
   DS_PORT = 3000,

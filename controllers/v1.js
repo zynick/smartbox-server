@@ -69,7 +69,7 @@ const login = (req, res, next) => {
   res.json({ token });
 };
 
-const stackGetCacheIfExist = (req, res, next) => {
+const structGetCacheIfExist = (req, res, next) => {
   if (structureCache) {
     res.json(structureCache);
   } else {
@@ -77,7 +77,7 @@ const stackGetCacheIfExist = (req, res, next) => {
   }
 };
 
-const stackGetDsStructure = (req, res, next) => {
+const structGetDsStructure = (req, res, next) => {
   get(`http://${DS_HOST}:${DS_PORT}/v2/structure`,
     (err, httpRes) => {
       if (err) {
@@ -93,7 +93,7 @@ const stackGetDsStructure = (req, res, next) => {
     });
 }
 
-const stackGetGcStructure = (req, res, next) => {
+const structGetGcStructure = (req, res, next) => {
   get(`http://${GC_HOST}:${GC_PORT}/v1/structure`,
     (err, httpRes) => {
       if (err) {
@@ -109,7 +109,7 @@ const stackGetGcStructure = (req, res, next) => {
     });
 };
 
-const stackMergeStructure = (req, res, next) => {
+const structMergeStructure = (req, res, next) => {
   const { ds, gc } = req;
 
   // TODO move this to lib
@@ -117,14 +117,17 @@ const stackMergeStructure = (req, res, next) => {
   let exists = {};
 
   ds.forEach((zone, idx) => {
-    const { zoneID: id, name } = zone;
+    const { zoneID, name } = zone;
     let items = [];
-    let _zone = { id, name, items };
+    let _zone = { name, items };
 
     exists[name] = idx;
 
     zone.groups.forEach(group => {
+      group.groupId = group.id;
       group.type = 'digitalstrom';
+      group.zoneId = zoneID;
+      delete group.id;
       items.push(group);
     });
 
@@ -157,27 +160,23 @@ const stackMergeStructure = (req, res, next) => {
   next();
 };
 
-const stackSaveCacheAndResponse = (req, res) => {
+const structSaveCacheAndResponse = (req, res) => {
   structureCache = req.structure;
   res.json(req.structure);
 };
+
+const structDsResponse = (req, res) => res.json(req.ds);
+const structGcResponse = (req, res) => res.json(req.gc);
 
 
 module.exports = {
   auth,
   login,
-
-  structure: [
-    stackGetCacheIfExist,
-    stackGetDsStructure,
-    stackGetGcStructure,
-    stackMergeStructure,
-    stackSaveCacheAndResponse
-  ],
-  structureRefresh: [
-    stackGetDsStructure,
-    stackGetGcStructure,
-    stackMergeStructure,
-    stackSaveCacheAndResponse
-  ]
+  structGetCacheIfExist,
+  structGetDsStructure,
+  structGetGcStructure,
+  structMergeStructure,
+  structSaveCacheAndResponse,
+  structDsResponse,
+  structGcResponse
 };
