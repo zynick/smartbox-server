@@ -69,6 +69,24 @@ const login = (req, res, next) => {
   res.json({ token });
 };
 
+const dsApi = (req, res, next) => {
+  get(`http://${DS_HOST}:${DS_PORT}/v2/api?path=${req.query.path}`,
+    (err, httpRes)=> {
+      if (err) {
+        return next(err);
+      }
+      if (httpRes.statusCode !== 200) {
+        err = new Error(`${httpRes.statusCode}: ${JSON.stringify(httpRes.body)}`);
+        err.status = httpRes.statusCode;
+        return next(err);
+      }
+      req.ds = httpRes.body;
+      next();
+    });
+};
+
+const dsApiResponse = (req, res) => res.json(req.ds);
+
 const structGetCacheIfExist = (req, res, next) => {
   if (structureCache) {
     res.json(structureCache);
@@ -172,6 +190,8 @@ const structGcResponse = (req, res) => res.json(req.gc);
 module.exports = {
   auth,
   login,
+  dsApi,
+  dsApiResponse,
   structGetCacheIfExist,
   structGetDsStructure,
   structGetGcStructure,
