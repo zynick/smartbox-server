@@ -3,7 +3,7 @@
 const async = require('async');
 const fs = require('fs');
 const jwt = require('jsonwebtoken');
-const { get } = require('../lib/http');
+const { post } = require('../lib/http');
 const {
   LOGIN_EMAIL,
   LOGIN_PASSWORD,
@@ -18,17 +18,6 @@ const {
 
 let structureCache;
 
-
-const _get = (url, res, next) => {
-  get(url, (err, httpRes) => {
-    if (err) {
-      return next(err);
-    }
-    res
-      .status(httpRes.statusCode)
-      .json(httpRes.body);
-  });
-};
 
 const auth = (req, res, next) => {
   const { authorization = '' } = req.headers;
@@ -69,9 +58,9 @@ const login = (req, res, next) => {
   res.json({ token });
 };
 
-const dsApi = (req, res, next) => {
-  get(`http://${DS_HOST}:${DS_PORT}/v2/api?path=${req.query.path}`,
-    (err, httpRes)=> {
+const postDsApi = (req, res, next) => {
+  post(DS_HOST, DS_PORT, '/v2/api', req.body,
+    (err, httpRes) => {
       if (err) {
         return next(err);
       }
@@ -85,7 +74,7 @@ const dsApi = (req, res, next) => {
     });
 };
 
-const dsApiResponse = (req, res) => res.json(req.ds);
+const postDsApiResponse = (req, res) => res.json(req.ds);
 
 const structGetCacheIfExist = (req, res, next) => {
   if (structureCache) {
@@ -96,7 +85,7 @@ const structGetCacheIfExist = (req, res, next) => {
 };
 
 const structGetDsStructure = (req, res, next) => {
-  get(`http://${DS_HOST}:${DS_PORT}/v2/structure`,
+  post(DS_HOST, DS_PORT, '/v2/structure',
     (err, httpRes) => {
       if (err) {
         return next(err);
@@ -112,7 +101,7 @@ const structGetDsStructure = (req, res, next) => {
 }
 
 const structGetGcStructure = (req, res, next) => {
-  get(`http://${GC_HOST}:${GC_PORT}/v1/structure`,
+  post(GC_HOST, GC_PORT, '/v1/structure',
     (err, httpRes) => {
       if (err) {
         return next(err);
@@ -190,8 +179,8 @@ const structGcResponse = (req, res) => res.json(req.gc);
 module.exports = {
   auth,
   login,
-  dsApi,
-  dsApiResponse,
+  postDsApi,
+  postDsApiResponse,
   structGetCacheIfExist,
   structGetDsStructure,
   structGetGcStructure,

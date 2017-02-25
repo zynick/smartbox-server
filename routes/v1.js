@@ -10,9 +10,9 @@ router.use('/login', controller.badRequest);
 
 router.use(v1.auth);
 
-router.get('/ds/api',
-  v1.dsApi,
-  v1.dsApiResponse);
+router.post('/ds/api',
+  v1.postDsApi,
+  v1.postDsApiResponse);
 
 router.get('/structure',
   v1.structGetCacheIfExist,
@@ -34,8 +34,6 @@ router.get('/structure/ds',
 router.get('/structure/gc',
   v1.structGetGcStructure,
   v1.structGcResponse);
-
-
 
 router.use(controller.badRequest);
 
