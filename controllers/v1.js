@@ -3,7 +3,7 @@
 const async = require('async');
 const fs = require('fs');
 const jwt = require('jsonwebtoken');
-const { post } = require('../lib/http');
+const { get, post } = require('../lib/http');
 const {
   LOGIN_EMAIL,
   LOGIN_PASSWORD,
@@ -85,7 +85,7 @@ const structGetCacheIfExist = (req, res, next) => {
 };
 
 const structGetDsStructure = (req, res, next) => {
-  post(DS_HOST, DS_PORT, '/v2/structure',
+  get(`http://${DS_HOST}:${DS_PORT}/v2/structure`,
     (err, httpRes) => {
       if (err) {
         return next(err);
@@ -101,7 +101,7 @@ const structGetDsStructure = (req, res, next) => {
 }
 
 const structGetGcStructure = (req, res, next) => {
-  post(GC_HOST, GC_PORT, '/v1/structure',
+  get(`http://${GC_HOST}:${GC_PORT}/v1/structure`,
     (err, httpRes) => {
       if (err) {
         return next(err);
