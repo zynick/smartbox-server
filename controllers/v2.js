@@ -1,18 +1,12 @@
 'use strict';
 
-const async = require('async');
-const fs = require('fs');
 const jwt = require('jsonwebtoken');
 const { get, post } = require('../lib/http');
 const {
   LOGIN_EMAIL,
   LOGIN_PASSWORD,
   JWT_SECRET,
-  JWT_EXPIRE,
-  DS_HOST,
-  DS_PORT,
-  GC_HOST,
-  GC_PORT
+  JWT_EXPIRE
 } = require('../config.js');
 
 
@@ -58,25 +52,10 @@ const login = (req, res, next) => {
   res.json({ token });
 };
 
-const postDsApi = (req, res, next) => {
-  post(DS_HOST, DS_PORT, '/v2/api', req.body,
-    (err, httpRes) => {
-      if (err) {
-        return next(err);
-      }
-      if (httpRes.statusCode !== 200) {
-        err = new Error(`${httpRes.statusCode}: ${JSON.stringify(httpRes.body)}`);
-        err.status = httpRes.statusCode;
-        return next(err);
-      }
-      req.ds = httpRes.body;
-      next();
-    });
-};
 
-const postDsApiResponse = (req, res) => res.json(req.ds);
 
-const structGetCacheIfExist = (req, res, next) => {
+const structCache = (req, res, next) => {
+  // get cache if exist
   if (structureCache) {
     res.json(structureCache);
   } else {
@@ -84,39 +63,7 @@ const structGetCacheIfExist = (req, res, next) => {
   }
 };
 
-const structGetDsStructure = (req, res, next) => {
-  get(`http://${DS_HOST}:${DS_PORT}/v2/structure`,
-    (err, httpRes) => {
-      if (err) {
-        return next(err);
-      }
-      if (httpRes.statusCode !== 200) {
-        err = new Error(`${httpRes.statusCode}: ${JSON.stringify(httpRes.body)}`);
-        err.status = httpRes.statusCode;
-        return next(err);
-      }
-      req.ds = httpRes.body;
-      next();
-    });
-}
-
-const structGetGcStructure = (req, res, next) => {
-  get(`http://${GC_HOST}:${GC_PORT}/v2/structure`,
-    (err, httpRes) => {
-      if (err) {
-        return next(err);
-      }
-      if (httpRes.statusCode !== 200) {
-        err = new Error(`${httpRes.statusCode}: ${JSON.stringify(httpRes.body)}`);
-        err.status = httpRes.statusCode;
-        return next(err);
-      }
-      req.gc = httpRes.body;
-      next();
-    });
-};
-
-const structMergeStructure = (req, res, next) => {
+const structMerge = (req, res, next) => {
   const { ds, gc } = req;
 
   // TODO move this to lib
@@ -167,25 +114,16 @@ const structMergeStructure = (req, res, next) => {
   next();
 };
 
-const structSaveCacheAndResponse = (req, res) => {
+const structCacheResponse = (req, res) => {
   structureCache = req.structure;
   res.json(req.structure);
 };
-
-const structDsResponse = (req, res) => res.json(req.ds);
-const structGcResponse = (req, res) => res.json(req.gc);
 
 
 module.exports = {
   auth,
   login,
-  postDsApi,
-  postDsApiResponse,
-  structGetCacheIfExist,
-  structGetDsStructure,
-  structGetGcStructure,
-  structMergeStructure,
-  structSaveCacheAndResponse,
-  structDsResponse,
-  structGcResponse
+  structCache,
+  structMerge,
+  structCacheResponse
 };

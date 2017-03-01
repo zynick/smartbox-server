@@ -7,7 +7,6 @@
     "start": "NODE_ENV=production PORT=3030 DEBUG=sb:error node app"
   },
   "dependencies": {
-    "async": "^2.1.4",
     "body-parser": "~1.13.2",
     "debug": "~2.2.0",
     "express": "~4.13.1",
