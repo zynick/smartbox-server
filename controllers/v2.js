@@ -101,7 +101,7 @@ const structGetDsStructure = (req, res, next) => {
 }
 
 const structGetGcStructure = (req, res, next) => {
-  get(`http://${GC_HOST}:${GC_PORT}/v1/structure`,
+  get(`http://${GC_HOST}:${GC_PORT}/v2/structure`,
     (err, httpRes) => {
       if (err) {
         return next(err);
